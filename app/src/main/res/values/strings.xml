@@ -13,5 +13,7 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fb1915111812034075</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="image_of_food">Image of food</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.AddFoodFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textViewAddFood"
+            app:layout_constraintBottom_toTopOf="@+id/imageViewFoodPic"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_food"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/editTextFoodName"
+            app:layout_constraintBottom_toTopOf="@+id/editTextFoodDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewFoodPic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/food_name"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/buttonUploadPic"
+            app:layout_constraintBottom_toTopOf="@+id/buttonAddFood"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFoodPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="uploadPic"
+            android:text="@string/upload_picture" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            app:layout_constraintGuide_begin="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            app:layout_constraintGuide_begin="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
+        <EditText
+            android:id="@+id/editTextFoodDescription"
+            app:layout_constraintBottom_toTopOf="@+id/editTextFoodPrice"
+            app:layout_constraintEnd_toEndOf="@+id/editTextFoodName"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFoodName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/food_description"
+            android:inputType="textMultiLine" />
+
+        <EditText
+            android:id="@+id/editTextFoodPrice"
+            app:layout_constraintBottom_toTopOf="@+id/buttonUploadPic"
+            app:layout_constraintEnd_toEndOf="@+id/editTextFoodDescription"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFoodDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/food_price"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/buttonAddFood"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/buttonUploadPic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="addFood"
+            android:text="@string/add_food"
+            tools:layout_editor_absoluteX="87dp"
+            tools:layout_editor_absoluteY="449dp" />
+
+        <ImageView
+            android:id="@+id/imageViewFoodPic"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/editTextFoodName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAddFood"
+            tools:layout_editor_absoluteY="110dp"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

@@ -1,8 +1,10 @@
-package com.dakiiii.hungerwarriorvendor;
+package com.dakiiii.hungerwarriorvendor.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.dakiiii.hungerwarriorvendor.R;
 
 public class OrdersActivity extends AppCompatActivity {
 
