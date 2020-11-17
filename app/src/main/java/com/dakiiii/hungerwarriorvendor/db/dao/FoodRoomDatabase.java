@@ -16,10 +16,10 @@ public abstract class FoodRoomDatabase extends RoomDatabase {
     public abstract FoodDao eFoodDao();
     private static volatile FoodRoomDatabase sFoodRoomDatabase;
     private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteEXECUTOR_SERVICE =
+    public static final ExecutorService databaseWriteEXECUTOR_SERVICE =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    static FoodRoomDatabase getFoodRoomDatabase(final Context context) {
+    public static FoodRoomDatabase getFoodRoomDatabase(final Context context) {
         if (sFoodRoomDatabase == null) {
             synchronized (FoodRoomDatabase.class) {
                 sFoodRoomDatabase = Room.databaseBuilder(context.getApplicationContext(),

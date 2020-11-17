@@ -3,6 +3,7 @@ package com.dakiiii.hungerwarriorvendor.model;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "food_table")
@@ -27,6 +28,7 @@ public class Food {
     @ColumnInfo(name = "food_pic_url")
     private String foodImageUrl;
 
+    @Ignore
     public Food(String foodName, int foodPrice) {
         this.foodName = foodName;
         this.foodPrice = foodPrice;
