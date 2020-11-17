@@ -1,12 +1,12 @@
 package com.dakiiii.hungerwarriorvendor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -48,12 +48,13 @@ public class AddFoodActivity extends AppCompatActivity {
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Toast.makeText(AddFoodActivity.this, response, Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(AddFoodActivity.this,
+                        error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -71,9 +72,9 @@ public class AddFoodActivity extends AppCompatActivity {
     }
 
     private Food getFoodDetail() {
-        String foodName = foodNameEditText.getText().toString();
-        String foodDesc = foodDescriptionEditText.getText().toString();
-        int foodPrice = Integer.parseInt(foodPriceEditText.getText().toString());
+        String foodName = foodNameEditText.getText().toString().trim();
+        String foodDesc = foodDescriptionEditText.getText().toString().trim();
+        int foodPrice = Integer.parseInt(foodPriceEditText.getText().toString().trim());
 
         if (foodName != null) {
             eFood = new Food(foodName);

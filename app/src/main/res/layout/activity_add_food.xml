@@ -12,8 +12,10 @@
         android:layout_height="wrap_content"
         android:text="@string/add_food"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewFoodPic"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <EditText
         android:id="@+id/editTextFoodName"
@@ -25,7 +27,9 @@
         android:ems="10"
         android:hint="@string/food_name"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/editTextFoodDescription"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/imageViewFoodPic" />
 
@@ -33,9 +37,10 @@
         android:id="@+id/buttonUploadPic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:onClick="uploadPic"
         android:text="@string/upload_picture"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAddFood"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/editTextFoodPrice" />
 
@@ -62,7 +67,9 @@
         android:gravity="start|top"
         android:hint="@string/food_description"
         android:inputType="textMultiLine"
+        app:layout_constraintBottom_toTopOf="@+id/editTextFoodPrice"
         app:layout_constraintEnd_toEndOf="@+id/editTextFoodName"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/editTextFoodName" />
 
@@ -74,7 +81,9 @@
         android:ems="10"
         android:hint="@string/food_price"
         android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/buttonUploadPic"
         app:layout_constraintEnd_toEndOf="@+id/editTextFoodDescription"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/editTextFoodDescription" />
 
@@ -85,23 +94,23 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
         android:onClick="addFood"
         android:text="@string/add_food"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/buttonUploadPic" />
 
     <ImageView
         android:id="@+id/imageViewFoodPic"
         android:layout_width="0dp"
-        android:layout_height="250dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextFoodName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAddFood"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
