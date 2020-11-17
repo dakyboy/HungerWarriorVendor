@@ -1,6 +1,8 @@
 package com.dakiiii.hungerwarriorvendor.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddFoodActivity extends AppCompatActivity {
+
+    public static final String EXTRA_REPLY = "com.dakiiii.hungerwarriorvendor.ui.food_uid_.REPLY";
 
     private ImageView foodPicImageView;
     private EditText foodNameEditText;
@@ -49,7 +53,7 @@ public class AddFoodActivity extends AppCompatActivity {
     }
 
     public void addFood(View view) {
-        Food food = getFoodDetail();
+        getFoodDetail();
 
         StringRequest addFoodStringRequest = new StringRequest(Request.Method.POST
                 , foodsUrl
@@ -79,18 +83,32 @@ public class AddFoodActivity extends AppCompatActivity {
 
     }
 
-    private Food getFoodDetail() {
-        String foodName = foodNameEditText.getText().toString().trim();
-        String foodDesc = foodDescriptionEditText.getText().toString().trim();
-        int foodPrice = Integer.parseInt(foodPriceEditText.getText().toString().trim());
+    private void getFoodDetail() {
+        String foodName;
+        String foodDesc;
+        Food food = null;
+        Intent replyIntent = new Intent();
+        int foodPrice;
+        if (TextUtils.isEmpty(foodNameEditText.getText()) || TextUtils.isEmpty(foodPriceEditText.getText())) {
+            setResult(RESULT_CANCELED, replyIntent);
 
-        if (foodName != null) {
-            eFood = new Food(foodName);
-            eFood.setFoodPrice(foodPrice);
-            eFood.setFoodDescription(foodDesc);
+
+        } else {
+            foodName = foodNameEditText.getText().toString().trim();
+            foodDesc = foodDescriptionEditText.getText().toString().trim();
+            foodPrice = Integer.parseInt(foodPriceEditText.getText().toString().trim());
+            food = new Food(foodName, foodPrice);
+
+            Bundle foodBundleExtras = new Bundle();
+            foodBundleExtras.putString("FOOD_NAME", food.getFoodName());
+            foodBundleExtras.putInt("FOOD_PRICE ", food.getFoodPrice());
+            replyIntent.putExtra(EXTRA_REPLY, foodBundleExtras);
+            setResult(RESULT_OK, replyIntent);
+
         }
 
-        return eFood;
+        finish();
+
     }
 
     public void uploadPic(View view) {
