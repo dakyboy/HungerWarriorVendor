@@ -27,7 +27,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAddFood" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewFoodPic" />
 
     <Button
         android:id="@+id/buttonUploadPic"
@@ -37,7 +37,7 @@
         android:onClick="uploadPic"
         android:text="@string/upload_picture"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextFoodPrice" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextFoodName" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/editTextFoodPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -82,15 +82,27 @@
         android:id="@+id/buttonAddFood"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:onClick="addFood"
         android:text="@string/add_food"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/buttonUploadPic" />
+
+    <ImageView
+        android:id="@+id/imageViewFoodPic"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAddFood"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
