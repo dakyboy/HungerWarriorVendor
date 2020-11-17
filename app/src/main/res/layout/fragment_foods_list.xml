@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D81313"
     tools:context=".ui.FoodsListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_allFoods"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#DA0F0F"
         tools:listitem="@layout/all_foods_row_item" />
 </FrameLayout>

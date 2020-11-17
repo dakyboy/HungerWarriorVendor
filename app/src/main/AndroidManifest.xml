@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HungerWarriorVendor">
-        <activity android:name=".FirebaseAuthActivity">
+        <activity android:name=".ui.FirebaseAuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OrdersActivity"
+            android:name=".ui.OrdersActivity"
             android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -28,13 +28,13 @@
         </activity>
         <activity
             android:name=".ui.AddFoodActivity"
-            android:parentActivityName=".FoodsActivity">
+            android:parentActivityName=".ui.FoodsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".FoodsActivity" />
+                android:value=".ui.FoodsActivity" />
         </activity>
         <activity
-            android:name=".FoodsActivity"
+            android:name=".ui.FoodsActivity"
             android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

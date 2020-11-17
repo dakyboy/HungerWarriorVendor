@@ -20,13 +20,11 @@ import java.util.List;
 public class AllFoodsAdapter extends RecyclerView.Adapter<AllFoodsAdapter.AllFoodsViewHolder> {
 
     private List<Food> eFoods;
-    private Context eContext;
-    private LiveData<List<Food>> eFoodsLiveData;
 
     @NonNull
     @Override
     public AllFoodsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(eContext).inflate(R.layout.all_foods_row_item,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_foods_row_item,
                 parent, false);
         AllFoodsViewHolder allFoodsViewHolder = new AllFoodsViewHolder(view);
         return allFoodsViewHolder;
@@ -44,7 +42,10 @@ public class AllFoodsAdapter extends RecyclerView.Adapter<AllFoodsAdapter.AllFoo
 
     @Override
     public int getItemCount() {
-        return eFoodsLiveData.getValue().size();
+        if (eFoods != null){
+            return eFoods.size();
+        }
+        return 0;
     }
 
     public void setFoods(List<Food> foods) {

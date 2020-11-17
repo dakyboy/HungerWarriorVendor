@@ -1,4 +1,4 @@
-package com.dakiiii.hungerwarriorvendor;
+package com.dakiiii.hungerwarriorvendor.ui;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.dakiiii.hungerwarriorvendor.ui.MainActivity;
+import com.dakiiii.hungerwarriorvendor.R;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
