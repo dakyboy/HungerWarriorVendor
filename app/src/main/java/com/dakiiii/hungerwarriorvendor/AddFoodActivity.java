@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.dakiiii.hungerwarriorvendor.model.Food;
 
 import java.util.HashMap;
@@ -38,6 +39,11 @@ public class AddFoodActivity extends AppCompatActivity {
         foodDescriptionEditText = findViewById(R.id.editTextFoodDescription);
         foodPriceEditText = findViewById(R.id.editTextFoodPrice);
         foodPicImageView = findViewById(R.id.imageViewFoodPic);
+
+        Glide.with(this)
+                .load("http://via.placeholder.com/300.png")
+                .placeholder(R.drawable.com_facebook_profile_picture_blank_portrait)
+                .into(foodPicImageView);
     }
 
     public void addFood(View view) {
