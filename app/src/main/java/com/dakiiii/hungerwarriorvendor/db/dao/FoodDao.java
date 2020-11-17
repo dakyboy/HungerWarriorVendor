@@ -1,5 +1,6 @@
-package com.dakiiii.hungerwarriorvendor.db;
+package com.dakiiii.hungerwarriorvendor.db.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -19,7 +20,7 @@ public interface FoodDao {
     void deleteAll();
 
     @Query("SELECT * FROM food_table")
-    List<Food> getFoods();
+    LiveData<List<Food>> getFoods();
 
 
 }

@@ -1,4 +1,4 @@
-package com.dakiiii.hungerwarriorvendor;
+package com.dakiiii.hungerwarriorvendor.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +14,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.dakiiii.hungerwarriorvendor.R;
+import com.dakiiii.hungerwarriorvendor.VolleySingleton;
 import com.dakiiii.hungerwarriorvendor.model.Food;
 
 import java.util.HashMap;

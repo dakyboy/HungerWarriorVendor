@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.dakiiii.hungerwarriorvendor.ui.AddFoodActivity;
+
 public class FoodsActivity extends AppCompatActivity {
 
     public Intent addFoodIntent;

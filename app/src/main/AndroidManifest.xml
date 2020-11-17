@@ -20,13 +20,13 @@
         </activity>
         <activity
             android:name=".OrdersActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
         <activity
-            android:name=".AddFoodActivity"
+            android:name=".ui.AddFoodActivity"
             android:parentActivityName=".FoodsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -34,12 +34,12 @@
         </activity>
         <activity
             android:name=".FoodsActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
 
         </activity>
 
