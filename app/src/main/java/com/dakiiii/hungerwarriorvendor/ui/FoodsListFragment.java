@@ -40,7 +40,7 @@ public class FoodsListFragment extends Fragment {
     AllFoodsAdapter eAllFoodsAdapter;
     private FoodRepository eFoodRepository;
     private Context eContext;
-    private String foodsUrl = "http://hungerwarrior.herokuapp.com/api/foods";
+    private String foodsUrl = "https://hungerwarrior.herokuapp.com/api/foods";
     private int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
     private List<Food> eFoodList = new ArrayList<>();
 
@@ -64,32 +64,14 @@ public class FoodsListFragment extends Fragment {
 
 //        eFoodList = eFoodRepository.getFoodsFromServer(eContext);
 
+
 //        addFoods();
         eAllFoodsAdapter.setFoods(eFoodList);
+        getFoods();
 
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        getFoods();
-    }
-
-    public void addFoods() {
-        Food food0 = new Food("Rolex", 1200);
-        eFoodList.add(food0);
-        Food food1 = new Food("Rolex", 3200);
-        eFoodList.add(food1);
-        Food food2 = new Food("Rolex", 2200);
-        eFoodList.add(food2);
-        Food food3 = new Food("Rolex", 1400);
-        eFoodList.add(food3);
-        Food food4 = new Food("Rolex", 1500);
-        eFoodList.add(food4);
-        Food food5 = new Food("Rolex", 1600);
-        eFoodList.add(food5);
-    }
 
     public void getFoods() {
         eFoodList.clear();
@@ -114,7 +96,7 @@ public class FoodsListFragment extends Fragment {
                         food.setFoodDescription(food_desc);
 
                         eFoodList.add(food);
-                        progressDialog.dismiss();
+
                     }
                     eAllFoodsAdapter.setFoods(eFoodList);
                     progressDialog.dismiss();
