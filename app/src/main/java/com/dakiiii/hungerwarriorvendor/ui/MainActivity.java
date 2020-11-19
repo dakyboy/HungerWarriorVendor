@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
         eFoodsListFragment = new FoodsListFragment();
         eFragmentManager = getSupportFragmentManager();
 
+        FragmentTransaction transaction = eFragmentManager.beginTransaction();
+//        transaction.add(R.id.fragment_main, eFoodsListFragment)
+//                .commit();
 
     }
 
@@ -32,10 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void openOrders(View view) {
-//        startActivity(ordersIntent);
-        FragmentTransaction transaction = eFragmentManager.beginTransaction();
-        transaction.add(R.id.fragment_main, eFoodsListFragment)
-                .commit();
+        startActivity(ordersIntent);
+
     }
 
 

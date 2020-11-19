@@ -6,22 +6,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.dakiiii.hungerwarriorvendor.R;
-import com.dakiiii.hungerwarriorvendor.VolleySingleton;
 import com.dakiiii.hungerwarriorvendor.model.Food;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AddFoodActivity extends AppCompatActivity {
 
@@ -33,7 +23,7 @@ public class AddFoodActivity extends AppCompatActivity {
     private EditText foodPriceEditText;
 
     private Food eFood;
-    private String foodsUrl = "http://hungerwarrior.herokuapp.com/api/foods";
+
 
 
     @Override
@@ -54,34 +44,8 @@ public class AddFoodActivity extends AppCompatActivity {
 
     public void addFood(View view) {
         getFoodDetail();
-
-        StringRequest addFoodStringRequest = new StringRequest(Request.Method.POST
-                , foodsUrl
-                , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(AddFoodActivity.this, response, Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(AddFoodActivity.this,
-                        error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("food_name", food.getFoodName());
-                params.put("food_desc", food.getFoodDescription());
-                params.put("food_price", Integer.toString(food.getFoodPrice()));
-                return params;
-            }
-        };
-
-        VolleySingleton.getInstance(AddFoodActivity.this).addToRequestQueue(addFoodStringRequest);
-
     }
+
 
     private void getFoodDetail() {
         String foodName;
@@ -105,6 +69,7 @@ public class AddFoodActivity extends AppCompatActivity {
             replyIntent.putExtra(EXTRA_REPLY, foodBundleExtras);
             setResult(RESULT_OK, replyIntent);
 
+
         }
 
         finish();
@@ -113,4 +78,5 @@ public class AddFoodActivity extends AppCompatActivity {
 
     public void uploadPic(View view) {
     }
+
 }

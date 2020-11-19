@@ -21,6 +21,8 @@ public class FoodViewModel extends AndroidViewModel {
         eFoodRepository = new FoodRepository(application);
 
         eFoodsListLiveData = eFoodRepository.getAllFoods();
+
+
     }
 
     public LiveData<List<Food>> getFoodsListLiveData() {

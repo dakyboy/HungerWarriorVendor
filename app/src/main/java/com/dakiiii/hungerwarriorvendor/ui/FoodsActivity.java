@@ -1,18 +1,16 @@
 package com.dakiiii.hungerwarriorvendor.ui;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.dakiiii.hungerwarriorvendor.R;
 import com.dakiiii.hungerwarriorvendor.model.Food;
-import com.dakiiii.hungerwarriorvendor.ui.AddFoodActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FoodsActivity extends AppCompatActivity {
@@ -21,12 +19,14 @@ public class FoodsActivity extends AppCompatActivity {
     private FragmentManager eFragmentManager;
     private FoodsListFragment eFoodsListFragment;
     private int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
+    private FoodViewModel eFoodViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foods);
 
+//        eFoodViewModel = new FoodViewModel();
 
         addFoodIntent = new Intent(this, AddFoodActivity.class);
 
@@ -52,8 +52,11 @@ public class FoodsActivity extends AppCompatActivity {
 
         if (requestCode == NEW_FOOD_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Food food = new Food(data.getStringExtra(AddFoodActivity.EXTRA_REPLY));
-                
+                Bundle newFoodBundle = data.getBundleExtra(AddFoodActivity.EXTRA_REPLY);
+                String foodName = newFoodBundle.getString("FOOD_NAME");
+                int foodPrice = newFoodBundle.getInt("FOOD_PRICE");
+                Food food = new Food(foodName, foodPrice);
+
 
             }
         }
