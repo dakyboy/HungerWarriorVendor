@@ -40,9 +40,9 @@ public class FoodsListFragment extends Fragment {
     AllFoodsAdapter eAllFoodsAdapter;
     private FoodRepository eFoodRepository;
     private Context eContext;
-    private String foodsUrl = "https://hungerwarrior.herokuapp.com/api/foods";
-    private int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
-    private List<Food> eFoodList = new ArrayList<>();
+    public static String foodsUrl = "https://hungerwarrior.herokuapp.com/api/foods";
+    private final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
+    private final List<Food> eFoodList = new ArrayList<>();
 
     public FoodsListFragment() {
         // Required empty public constructor
