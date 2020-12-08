@@ -1,4 +1,4 @@
-package com.dakiiii.hungerwarriorvendor.db.dao;
+package com.dakiiii.hungerwarriorvendor.db;
 
 import android.content.Context;
 
@@ -8,6 +8,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.dakiiii.hungerwarriorvendor.db.dao.FoodDao;
 import com.dakiiii.hungerwarriorvendor.model.Food;
 
 import java.util.concurrent.ExecutorService;
@@ -35,7 +36,7 @@ public abstract class FoodRoomDatabase extends RoomDatabase {
         return sFoodRoomDatabase;
     }
 
-    private static RoomDatabase.Callback sCallback = new Callback() {
+    private static final RoomDatabase.Callback sCallback = new Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);

@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,7 +38,6 @@ public class AddFoodActivity extends AppCompatActivity {
     private EditText foodNameEditText;
     private EditText foodDescriptionEditText;
     private EditText foodPriceEditText;
-    private FirebaseAuth eFirebaseAuth;
     private FirebaseUser eFirebaseUser;
 
     private Food eFood;
@@ -54,8 +52,8 @@ public class AddFoodActivity extends AppCompatActivity {
         foodDescriptionEditText = findViewById(R.id.editTextFoodDescription);
         foodPriceEditText = findViewById(R.id.editTextFoodPrice);
         foodPicImageView = findViewById(R.id.imageViewFoodPic);
-        eFirebaseAuth = FirebaseAuth.getInstance();
-        eFirebaseUser = eFirebaseAuth.getCurrentUser();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        eFirebaseUser = firebaseAuth.getCurrentUser();
 
         Glide.with(this)
                 .load("http://via.placeholder.com/300.png")
@@ -102,12 +100,12 @@ public class AddFoodActivity extends AppCompatActivity {
                 Request.Method.POST, FoodsListFragment.foodsUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "no success", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "no success", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
