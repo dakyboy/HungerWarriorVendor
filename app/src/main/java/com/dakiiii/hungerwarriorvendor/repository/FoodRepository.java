@@ -23,7 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,6 @@ public class FoodRepository {
     private final FoodDao eFoodDao;
     private final LiveData<List<Food>> eAllFoods;
     private final VolleySingleton eVolleySingleton;
-    private final List<Food> eFoods = new ArrayList<>();
     private final LiveData<List<Food>> eLiveDataFoods = new MutableLiveData<>();
 
     public FoodRepository(Application application) {
