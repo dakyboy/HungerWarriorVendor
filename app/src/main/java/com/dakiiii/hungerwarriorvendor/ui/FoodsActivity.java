@@ -19,14 +19,12 @@ public class FoodsActivity extends AppCompatActivity {
     private FragmentManager eFragmentManager;
     private FoodsListFragment eFoodsListFragment;
     private final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
-    private FoodViewModel eFoodViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foods);
 
-//        eFoodViewModel = new FoodViewModel();
 
         addFoodIntent = new Intent(this, AddFoodActivity.class);
 

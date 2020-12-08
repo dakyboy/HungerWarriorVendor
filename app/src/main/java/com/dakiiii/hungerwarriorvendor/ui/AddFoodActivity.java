@@ -1,6 +1,5 @@
 package com.dakiiii.hungerwarriorvendor.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,21 +8,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.dakiiii.hungerwarriorvendor.R;
 import com.dakiiii.hungerwarriorvendor.model.Food;
-import com.dakiiii.hungerwarriorvendor.networking.VolleySingleton;
+import com.dakiiii.hungerwarriorvendor.viewmodel.FoodViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AddFoodActivity extends AppCompatActivity {
 
@@ -39,8 +31,8 @@ public class AddFoodActivity extends AppCompatActivity {
     private EditText foodDescriptionEditText;
     private EditText foodPriceEditText;
     private FirebaseUser eFirebaseUser;
+    private FoodViewModel eFoodViewModel;
 
-    private Food eFood;
 
 
     @Override
@@ -54,6 +46,10 @@ public class AddFoodActivity extends AppCompatActivity {
         foodPicImageView = findViewById(R.id.imageViewFoodPic);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         eFirebaseUser = firebaseAuth.getCurrentUser();
+
+        eFoodViewModel = new ViewModelProvider
+                .AndroidViewModelFactory(getApplication())
+                .create(FoodViewModel.class);
 
         Glide.with(this)
                 .load("http://via.placeholder.com/300.png")
@@ -85,7 +81,7 @@ public class AddFoodActivity extends AppCompatActivity {
             food.setFoodDescription(foodDesc);
             food.setFoodVendor(eFirebaseUser.getDisplayName());
 
-            saveFood(this, food);
+            eFoodViewModel.saveFoodToServer(food);
             setResult(RESULT_OK, replyIntent);
 
 
@@ -93,33 +89,6 @@ public class AddFoodActivity extends AppCompatActivity {
 
         finish();
 
-    }
-
-    private void saveFood(Context context, Food food) {
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST, FoodsListFragment.foodsUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-//                Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(context, "no success", Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put(KEY_FOOD_NAME, food.getFoodName());
-                params.put(KEY_FOOD_DESC, food.getFoodDescription());
-                params.put(KEY_FOOD_PRICE, Integer.toString(food.getFoodPrice()));
-                params.put(KEY_FOOD_VENDOR, food.getFoodVendor());
-                return params;
-            }
-        };
-
-        VolleySingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     public void uploadPic(View view) {
