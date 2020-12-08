@@ -55,6 +55,11 @@ public class AllFoodsAdapter extends RecyclerView.Adapter<AllFoodsAdapter.AllFoo
         notifyDataSetChanged();
     }
 
+    public Food getFoodAtPosition(int position) {
+
+        return eFoods.get(position);
+    }
+
 
     public class AllFoodsViewHolder extends RecyclerView.ViewHolder {
 

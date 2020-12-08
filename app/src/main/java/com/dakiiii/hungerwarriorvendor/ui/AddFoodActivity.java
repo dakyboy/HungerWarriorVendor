@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,6 +34,7 @@ public class AddFoodActivity extends AppCompatActivity {
     private EditText foodPriceEditText;
     private FirebaseUser eFirebaseUser;
     private FoodViewModel eFoodViewModel;
+    private Button eButtonAddFood;
 
 
 
@@ -40,6 +43,7 @@ public class AddFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_food);
 
+        eButtonAddFood = findViewById(R.id.buttonAddFood);
         foodNameEditText = findViewById(R.id.editTextFoodName);
         foodDescriptionEditText = findViewById(R.id.editTextFoodDescription);
         foodPriceEditText = findViewById(R.id.editTextFoodPrice);
@@ -53,11 +57,12 @@ public class AddFoodActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load("http://via.placeholder.com/300.png")
-                .placeholder(R.drawable.com_facebook_profile_picture_blank_portrait)
+                .placeholder(R.drawable.ic_baseline_fastfood_24)
                 .into(foodPicImageView);
     }
 
     public void addFood(View view) {
+        eButtonAddFood.setEnabled(false);
         getFoodDetail();
     }
 
@@ -70,6 +75,8 @@ public class AddFoodActivity extends AppCompatActivity {
         int foodPrice;
         if (TextUtils.isEmpty(foodNameEditText.getText()) || TextUtils.isEmpty(foodPriceEditText.getText())) {
             setResult(RESULT_CANCELED, replyIntent);
+            Toast.makeText(getApplicationContext()
+                    , "Please fill the fields", Toast.LENGTH_SHORT).show();
 
 
         } else {

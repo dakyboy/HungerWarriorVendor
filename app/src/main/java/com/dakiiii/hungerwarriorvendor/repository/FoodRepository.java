@@ -66,6 +66,10 @@ public LiveData<List<Food>> getAllFoods() {
         new getFoodsFromServerAsyncTask(eFoodDao, eVolleySingleton).execute();
     }
 
+    public void deleteFood(Food food) {
+
+    }
+
     //    Async tasks
 
     //    Async task to save the foods from the server to the db

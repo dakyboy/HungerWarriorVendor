@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "food_table")
+@Entity(tableName = "foods_table")
 public class Food {
     @PrimaryKey(autoGenerate = true)
     @NonNull

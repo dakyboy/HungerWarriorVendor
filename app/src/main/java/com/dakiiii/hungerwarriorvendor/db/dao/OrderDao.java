@@ -11,6 +11,6 @@ import java.util.List;
 @Dao
 public interface OrderDao {
 
-    @Query("SELECT * FROM `order`")
+    @Query("SELECT * FROM `orders_table`")
     LiveData<List<Order>> getOrders();
 }
