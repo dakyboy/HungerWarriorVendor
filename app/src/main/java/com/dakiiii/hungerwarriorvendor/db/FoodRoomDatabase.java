@@ -9,14 +9,18 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.dakiiii.hungerwarriorvendor.db.dao.FoodDao;
+import com.dakiiii.hungerwarriorvendor.db.dao.OrderDao;
 import com.dakiiii.hungerwarriorvendor.model.Food;
+import com.dakiiii.hungerwarriorvendor.model.Order;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = Food.class, version = 1, exportSchema = false)
+@Database(entities = {Food.class, Order.class}, version = 1, exportSchema = false)
 public abstract class FoodRoomDatabase extends RoomDatabase {
     public abstract FoodDao eFoodDao();
+
+    public abstract OrderDao eOrderDao();
 
     private static volatile FoodRoomDatabase sFoodRoomDatabase;
     private static final int NUMBER_OF_THREADS = 4;

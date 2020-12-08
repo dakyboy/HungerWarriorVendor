@@ -47,19 +47,23 @@ public class FoodRepository {
     }
 
 
-    public LiveData<List<Food>> getAllFoods() {
-        return eAllFoods;
-    }
+//    get live data food list from db
+public LiveData<List<Food>> getAllFoods() {
+    return eAllFoods;
+}
+
 
     public void saveFoodToDb(Food food) {
         new saveFoodsToDbAsyncTask(eFoodDao, food).execute();
     }
 
 
+    //    save food to server
     public void saveFoodToServer(Food food) {
         new saveFoodToServerAsyncTask(eFoodDao, eVolleySingleton, food).execute();
     }
 
+    //    Get foods from server
     public void getFoodsFromServer() {
         new getFoodsFromServerAsyncTask(eFoodDao, eVolleySingleton).execute();
     }
@@ -146,6 +150,7 @@ public class FoodRepository {
         }
     }
 
+    //    Async task to save a food to the server
     public static class saveFoodToServerAsyncTask extends AsyncTask<Void, Void, Void> {
         public static final String KEY_FOOD_NAME = "food_name";
         public static final String KEY_FOOD_DESC = "food_desc";
