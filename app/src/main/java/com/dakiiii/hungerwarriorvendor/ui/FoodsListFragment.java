@@ -1,23 +1,23 @@
 package com.dakiiii.hungerwarriorvendor.ui;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.dakiiii.hungerwarriorvendor.R;
 import com.dakiiii.hungerwarriorvendor.adapter.AllFoodsAdapter;
 import com.dakiiii.hungerwarriorvendor.model.Food;
+import com.dakiiii.hungerwarriorvendor.viewmodel.FoodListViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,8 +25,11 @@ public class FoodsListFragment extends Fragment {
 
     private RecyclerView eRecyclerView;
     private LiveData<List<Food>> eFoodsLiveData;
-    private FoodViewModel eFoodViewModel;
-    private List<Food> eAllFoodsFoods;
+    AllFoodsAdapter eAllFoodsAdapter;
+    public static String foodsUrl = "https://hungerwarrior.herokuapp.com/api/foods";
+    private final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
+    private final List<Food> eFoodList = new ArrayList<>();
+    private FoodListViewModel eFoodListViewModel;
 
     public FoodsListFragment() {
         // Required empty public constructor
@@ -40,22 +43,23 @@ public class FoodsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_foods_list, container, false);
 
         eRecyclerView = view.findViewById(R.id.recyclerview_allFoods);
-        final AllFoodsAdapter allFoodsAdapter = new AllFoodsAdapter();
-        eRecyclerView.setAdapter(allFoodsAdapter);
-        eRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        eAllFoodsAdapter = new AllFoodsAdapter();
+        eRecyclerView.setAdapter(eAllFoodsAdapter);
+        eRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        eFoodViewModel = new ViewModelProvider.AndroidViewModelFactory(getActivity()
-                .getApplication()).create(FoodViewModel.class);
-        eFoodViewModel.getFoodsListLiveData().observe(this, new Observer<List<Food>>() {
+        eFoodListViewModel = new ViewModelProvider
+                .AndroidViewModelFactory(getActivity().getApplication())
+                .create(FoodListViewModel.class);
+
+        eFoodListViewModel.getLiveDataFoods().observe(this, new Observer<List<Food>>() {
             @Override
             public void onChanged(List<Food> foods) {
-                allFoodsAdapter.setFoods(foods);
+                eAllFoodsAdapter.setFoods(foods);
             }
         });
 
 
         return view;
     }
-
 
 }

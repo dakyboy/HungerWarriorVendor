@@ -6,34 +6,33 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.dakiiii.hungerwarriorvendor.R;
-import com.dakiiii.hungerwarriorvendor.VolleySingleton;
 import com.dakiiii.hungerwarriorvendor.model.Food;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.dakiiii.hungerwarriorvendor.viewmodel.FoodViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class AddFoodActivity extends AppCompatActivity {
 
     public static final String EXTRA_REPLY = "com.dakiiii.hungerwarriorvendor.ui.food_uid_.REPLY";
+    public static final String KEY_FOOD_NAME = "food_name";
+    public static final String KEY_FOOD_DESC = "food_desc";
+    public static final String KEY_FOOD_PRICE = "food_price";
+    public static final String KEY_FOOD_VENDOR = "food_vendor";
+
 
     private ImageView foodPicImageView;
     private EditText foodNameEditText;
     private EditText foodDescriptionEditText;
     private EditText foodPriceEditText;
+    private FirebaseUser eFirebaseUser;
+    private FoodViewModel eFoodViewModel;
 
-    private Food eFood;
-    private String foodsUrl = "http://hungerwarrior.herokuapp.com/api/foods";
 
 
     @Override
@@ -45,6 +44,12 @@ public class AddFoodActivity extends AppCompatActivity {
         foodDescriptionEditText = findViewById(R.id.editTextFoodDescription);
         foodPriceEditText = findViewById(R.id.editTextFoodPrice);
         foodPicImageView = findViewById(R.id.imageViewFoodPic);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        eFirebaseUser = firebaseAuth.getCurrentUser();
+
+        eFoodViewModel = new ViewModelProvider
+                .AndroidViewModelFactory(getApplication())
+                .create(FoodViewModel.class);
 
         Glide.with(this)
                 .load("http://via.placeholder.com/300.png")
@@ -54,34 +59,8 @@ public class AddFoodActivity extends AppCompatActivity {
 
     public void addFood(View view) {
         getFoodDetail();
-
-        StringRequest addFoodStringRequest = new StringRequest(Request.Method.POST
-                , foodsUrl
-                , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(AddFoodActivity.this, response, Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(AddFoodActivity.this,
-                        error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("food_name", food.getFoodName());
-                params.put("food_desc", food.getFoodDescription());
-                params.put("food_price", Integer.toString(food.getFoodPrice()));
-                return params;
-            }
-        };
-
-        VolleySingleton.getInstance(AddFoodActivity.this).addToRequestQueue(addFoodStringRequest);
-
     }
+
 
     private void getFoodDetail() {
         String foodName;
@@ -97,13 +76,14 @@ public class AddFoodActivity extends AppCompatActivity {
             foodName = foodNameEditText.getText().toString().trim();
             foodDesc = foodDescriptionEditText.getText().toString().trim();
             foodPrice = Integer.parseInt(foodPriceEditText.getText().toString().trim());
-            food = new Food(foodName, foodPrice);
 
-            Bundle foodBundleExtras = new Bundle();
-            foodBundleExtras.putString("FOOD_NAME", food.getFoodName());
-            foodBundleExtras.putInt("FOOD_PRICE ", food.getFoodPrice());
-            replyIntent.putExtra(EXTRA_REPLY, foodBundleExtras);
+            food = new Food(foodName, foodPrice);
+            food.setFoodDescription(foodDesc);
+            food.setFoodVendor(eFirebaseUser.getDisplayName());
+
+            eFoodViewModel.saveFoodToServer(food);
             setResult(RESULT_OK, replyIntent);
+
 
         }
 
@@ -113,4 +93,5 @@ public class AddFoodActivity extends AppCompatActivity {
 
     public void uploadPic(View view) {
     }
+
 }
