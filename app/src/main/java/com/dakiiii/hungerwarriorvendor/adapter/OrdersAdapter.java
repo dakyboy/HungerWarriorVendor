@@ -30,6 +30,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     @Override
     public void onBindViewHolder(@NonNull OrdersViewHolder holder, int position) {
 
+        /*private TextView eTextViewCustomerName;
+        private TextView eTextViewOrderid;
+        private TextView eTextViewOrderTotal;
+        private TextView eTextViewOrderDate;
+        private Button eButtonRejectOrder;
+        private Button eButtonAcceptOrder;*/
+        Order order = eOrders.get(position);
+        holder.eTextViewOrderid.setText(String.valueOf(order.getOrderId()));
+        holder.eTextViewCustomerName.setText(order.getCustomerId());
     }
 
     @Override

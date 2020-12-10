@@ -43,7 +43,6 @@ public class FirebaseAuthActivity extends AppCompatActivity {
         } else {
             List<AuthUI.IdpConfig> providers = Arrays.asList(
                     new AuthUI.IdpConfig.FacebookBuilder().build(),
-                    new AuthUI.IdpConfig.EmailBuilder().build(),
                     new AuthUI.IdpConfig.GoogleBuilder().build()
             );
 

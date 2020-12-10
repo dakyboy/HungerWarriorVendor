@@ -32,7 +32,6 @@ public abstract class FoodRoomDatabase extends RoomDatabase {
             synchronized (FoodRoomDatabase.class) {
                 sFoodRoomDatabase = Room.databaseBuilder(context.getApplicationContext(),
                         FoodRoomDatabase.class, "food_database")
-                        .addCallback(sCallback)
                         .build();
             }
         }

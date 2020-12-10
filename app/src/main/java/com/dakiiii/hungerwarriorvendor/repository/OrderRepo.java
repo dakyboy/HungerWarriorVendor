@@ -19,26 +19,32 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderRepo {
 
-    private final OrderDao eOrderDao;
-    private final VolleySingleton eVolleySingleton;
+    private OrderDao eOrderDao;
+    private VolleySingleton eVolleySingleton;
     List<Order> eOrders = new ArrayList<>();
     LiveData<List<Order>> eLiveDataOrders = new MutableLiveData<>();
-    private final FirebaseUser eFirebaseUser;
+    private FirebaseUser eFirebaseUser;
+    FirebaseAuth eFirebaseAuth;
 
     public OrderRepo(Application application) {
         FoodRoomDatabase foodRoomDatabase = FoodRoomDatabase.getFoodRoomDatabase(application);
         eOrderDao = foodRoomDatabase.eOrderDao();
         eLiveDataOrders = eOrderDao.getOrders();
+        eFirebaseAuth = FirebaseAuth.getInstance();
         eVolleySingleton = VolleySingleton.getInstance(application);
-        eFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        new getVendorOrdersAsyncTask(eVolleySingleton, eFirebaseUser).execute();
+        eFirebaseUser = eFirebaseAuth.getCurrentUser();
+
+
+        new getVendorOrdersAsyncTask(eVolleySingleton, eFirebaseAuth, eOrderDao).execute();
     }
 
     public List<Order> getOrders() {
@@ -52,14 +58,16 @@ public class OrderRepo {
 //    Async Classes
 
     private static class getVendorOrdersAsyncTask extends AsyncTask<Void, Void, Void> {
-        public static String API_ORDERS_VENDOR = "https://hungerwarrior.herokuapp.com/api/orderItemsByVendor/";
+        public final static String API_ORDERS_VENDOR = "https://hungerwarrior.herokuapp.com/api/orderItemsByVendor/";
         VolleySingleton eVolleySingleton;
         FirebaseUser eFirebaseUser;
-
-        public getVendorOrdersAsyncTask(VolleySingleton volleySingleton, FirebaseUser user) {
+        FirebaseAuth eFirebaseAuth;
+        OrderDao eOrderDao;
+        public getVendorOrdersAsyncTask(VolleySingleton volleySingleton, FirebaseAuth auth, OrderDao orderDao) {
             eVolleySingleton = volleySingleton;
-            eFirebaseUser = user;
-            API_ORDERS_VENDOR += user.getDisplayName();
+            eFirebaseAuth = auth;
+            eFirebaseUser = auth.getCurrentUser();
+            eOrderDao = orderDao;
         }
 
         @Override
@@ -69,12 +77,35 @@ public class OrderRepo {
         }
 
         private void getOrders() {
+            String vendorName = eFirebaseUser.getDisplayName();
             JsonArrayRequest jsonArrayRequestOrders = new JsonArrayRequest(Request.Method.GET
-                    , API_ORDERS_VENDOR, null
+                    , API_ORDERS_VENDOR + vendorName, null
                     , new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     Log.d("whosssss", response.toString());
+
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject orderJsonObject = response.getJSONObject(i);
+                            int order_id = orderJsonObject.getInt("order_id");
+                            String customer_id = orderJsonObject.getString("customer_id");
+                            int total = orderJsonObject.getInt("total");
+                            String status = orderJsonObject.getString("status");
+                            int quantity = orderJsonObject.getInt("quantity");
+                            String foodName = orderJsonObject.getString("food_name");
+
+                            Order order = new Order(order_id);
+                            order.setCustomerId(customer_id);
+                            order.setStatus(status);
+                            order.setFoodName(foodName);
+                            order.setFoodQuantity(quantity);
+                            new saveOrdersToDbAsyncTask(eOrderDao, order).execute();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -86,6 +117,23 @@ public class OrderRepo {
             eVolleySingleton.addToRequestQueue(jsonArrayRequestOrders);
         }
     }
+
+    private static class saveOrdersToDbAsyncTask extends AsyncTask<Void, Void, Void> {
+        OrderDao eOrderDao;
+        Order eOrder;
+
+        public saveOrdersToDbAsyncTask(OrderDao orderDao, Order order) {
+            eOrderDao = orderDao;
+            eOrder = order;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            eOrderDao.insert(eOrder);
+            return null;
+        }
+    }
+
 
    /* private static class eAsyncTask extends AsyncTask<Void, Void, Void> {
         @Override

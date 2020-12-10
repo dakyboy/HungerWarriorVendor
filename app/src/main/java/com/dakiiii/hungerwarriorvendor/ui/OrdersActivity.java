@@ -37,7 +37,7 @@ public class OrdersActivity extends AppCompatActivity {
                 .create(OrderViewModel.class);
 
 //        get orders for vendor
-        eOrderViewModel.getOrderss().observe(this, new Observer<List<Order>>() {
+        eOrderViewModel.getOrders().observe(this, new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
                 eOrdersAdapter.setOrders(orders);

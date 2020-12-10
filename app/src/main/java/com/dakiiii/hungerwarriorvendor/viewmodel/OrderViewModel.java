@@ -21,11 +21,8 @@ public class OrderViewModel extends AndroidViewModel {
         eOrderRepo = new OrderRepo(application);
     }
 
-    public List<Order> getOrders() {
-        return eOrderRepo.getOrders();
-    }
 
-    public LiveData<List<Order>> getOrderss() {
+    public LiveData<List<Order>> getOrders() {
         return eOrderRepo.getOrderss();
     }
 }

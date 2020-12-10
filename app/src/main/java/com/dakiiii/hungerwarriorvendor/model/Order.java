@@ -1,6 +1,7 @@
 package com.dakiiii.hungerwarriorvendor.model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "orders_table")
@@ -9,13 +10,23 @@ public class Order {
     @PrimaryKey
     private int id;
 
-    private int order_id;
-
-    private int total;
+    private int orderId;
 
     private String status;
 
     private String customerId;
+
+    private String foodName;
+
+    private int foodQuantity;
+
+    public Order() {
+    }
+
+    @Ignore
+    public Order(int orderId) {
+        this.orderId = orderId;
+    }
 
     public int getId() {
         return id;
@@ -25,12 +36,12 @@ public class Order {
         this.id = id;
     }
 
-    public int getTotal() {
-        return total;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public String getStatus() {
@@ -49,11 +60,19 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public int getOrder_id() {
-        return order_id;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
+    }
+
+    public int getFoodQuantity() {
+        return foodQuantity;
+    }
+
+    public void setFoodQuantity(int foodQuantity) {
+        this.foodQuantity = foodQuantity;
     }
 }

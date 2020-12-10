@@ -18,6 +18,8 @@ import com.dakiiii.hungerwarriorvendor.db.dao.FoodDao;
 import com.dakiiii.hungerwarriorvendor.model.Food;
 import com.dakiiii.hungerwarriorvendor.networking.VolleySingleton;
 import com.dakiiii.hungerwarriorvendor.ui.FoodsListFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,27 +30,32 @@ import java.util.List;
 import java.util.Map;
 
 public class FoodRepository {
-    public static final String API_FOODS_URL = "http://hungerwarrior.herokuapp.com/api/foods";
+
+    public static final String API_FOODS_URL = "https://hungerwarrior.herokuapp.com/api/foods";
+    public static final String API_FOODS_BY_VENDOR_URL = API_FOODS_URL + "ByVendor/";
     private final FoodDao eFoodDao;
     private final LiveData<List<Food>> eAllFoods;
     private final VolleySingleton eVolleySingleton;
     private final LiveData<List<Food>> eLiveDataFoods = new MutableLiveData<>();
+    private FirebaseUser eFirebaseUser;
 
     public FoodRepository(Application application) {
         FoodRoomDatabase foodRoomDatabase = FoodRoomDatabase.getFoodRoomDatabase(application);
         eFoodDao = foodRoomDatabase.eFoodDao();
-
+        eFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         eVolleySingleton = VolleySingleton.getInstance(application);
+
         getFoodsFromServer();
 
         eAllFoods = eFoodDao.getFoods();
+
     }
 
 
-//    get live data food list from db
-public LiveData<List<Food>> getAllFoods() {
-    return eAllFoods;
-}
+    //    get live data food list from db
+    public LiveData<List<Food>> getAllFoods() {
+        return eAllFoods;
+    }
 
 
     public void saveFoodToDb(Food food) {
@@ -63,11 +70,21 @@ public LiveData<List<Food>> getAllFoods() {
 
     //    Get foods from server
     public void getFoodsFromServer() {
-        new getFoodsFromServerAsyncTask(eFoodDao, eVolleySingleton).execute();
+        new getFoodsFromServerAsyncTask(eFoodDao, eVolleySingleton, eFirebaseUser).execute();
     }
 
     public void deleteFood(Food food) {
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, API_FOODS_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
 
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
     }
 
     //    Async tasks
@@ -77,10 +94,13 @@ public LiveData<List<Food>> getAllFoods() {
 
         private final FoodDao eFoodDao;
         private final VolleySingleton eVolleySingleton;
+        private FirebaseUser eFirebaseUser;
 
-        public getFoodsFromServerAsyncTask(FoodDao foodDao, VolleySingleton volleySingleton) {
+        public getFoodsFromServerAsyncTask(FoodDao foodDao
+                , VolleySingleton volleySingleton, FirebaseUser user) {
             eFoodDao = foodDao;
             eVolleySingleton = volleySingleton;
+            eFirebaseUser = user;
         }
 
         @Override
@@ -91,7 +111,8 @@ public LiveData<List<Food>> getAllFoods() {
 
         private void getFoodsFromServer() {
 
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, API_FOODS_URL
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET
+                    , API_FOODS_BY_VENDOR_URL + eFirebaseUser.getDisplayName()
                     , null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
