@@ -7,18 +7,16 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "orders_table")
 public class Order {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     private int orderId;
 
-    private String status;
 
     private String customerId;
 
-    private String foodName;
 
-    private int foodQuantity;
+    private String orderedOn;
 
     public Order() {
     }
@@ -44,14 +42,6 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getCustomerId() {
         return customerId;
     }
@@ -60,19 +50,11 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public String getFoodName() {
-        return foodName;
+    public String getOrderedOn() {
+        return orderedOn;
     }
 
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
-    }
-
-    public int getFoodQuantity() {
-        return foodQuantity;
-    }
-
-    public void setFoodQuantity(int foodQuantity) {
-        this.foodQuantity = foodQuantity;
+    public void setOrderedOn(String orderedOn) {
+        this.orderedOn = orderedOn;
     }
 }

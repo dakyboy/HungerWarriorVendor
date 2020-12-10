@@ -24,104 +24,40 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView_Order_label_Total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:labelFor="@id/textView_Order_Total"
-                android:text="@string/total"
-                android:textSize="@dimen/textSizeSubtitle"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_Order_Total"
-                app:layout_constraintEnd_toStartOf="@+id/textView_Order_Total" />
-
-            <TextView
-                android:id="@+id/textView_Order_Total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/_15"
-                android:textSize="@dimen/textSizeSubtitle"
-                app:layout_constraintEnd_toEndOf="@+id/textView_Order_OrderId"
-                app:layout_constraintTop_toBottomOf="@+id/textView_Order_OrderId" />
-
-            <TextView
-                android:id="@+id/textView_Order_customer_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:hint="@string/customer_name"
-                android:text="@string/customer_name"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@+id/textView_Order_label_OrderId"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/textView_Order_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/order_time"
-                app:layout_constraintStart_toStartOf="@+id/textView_Order_customer_name"
-                app:layout_constraintTop_toBottomOf="@+id/textView_Order_customer_name" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView_Order_label_OrderId"
+                app:layout_constraintTop_toBottomOf="@+id/textView_Order_label_OrderId" />
 
             <TextView
                 android:id="@+id/textView_Order_label_OrderId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
                 android:labelFor="@id/textView_Order_OrderId"
                 android:text="@string/order_id"
-                android:textSize="@dimen/textSizeSubtitle"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView_Order_customer_name"
-                app:layout_constraintEnd_toStartOf="@+id/textView_Order_OrderId" />
+                android:textSize="21sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView_Order_OrderId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="@string/_15"
-                android:textSize="@dimen/textSizeSubtitle"
+                android:textSize="21sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView_Order_label_OrderId"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/textView_Order_label_OrderId" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_orderItems"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/textView_Order_Total"
-                app:layout_constraintStart_toStartOf="@+id/textView_Order_customer_name"
-                app:layout_constraintTop_toBottomOf="@+id/textView_Order_label_Total"
-                tools:listitem="@layout/orderitem_row_item" />
-
-            <Button
-                android:id="@+id/button_Order_reject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#EC2C2C"
-                android:text="@string/reject"
-                app:backgroundTint="@color/design_default_color_error"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button_Order_accept"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerview_orderItems" />
-
-            <Button
-                android:id="@+id/button_Order_accept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/accept"
-                app:backgroundTint="#00897B"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button_Order_reject"
-                app:layout_constraintTop_toTopOf="@+id/button_Order_reject" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

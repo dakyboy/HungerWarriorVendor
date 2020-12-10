@@ -3,8 +3,8 @@ package com.dakiiii.hungerwarriorvendor.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,15 +30,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     @Override
     public void onBindViewHolder(@NonNull OrdersViewHolder holder, int position) {
 
-        /*private TextView eTextViewCustomerName;
-        private TextView eTextViewOrderid;
-        private TextView eTextViewOrderTotal;
-        private TextView eTextViewOrderDate;
-        private Button eButtonRejectOrder;
-        private Button eButtonAcceptOrder;*/
         Order order = eOrders.get(position);
-        holder.eTextViewOrderid.setText(String.valueOf(order.getOrderId()));
-        holder.eTextViewCustomerName.setText(order.getCustomerId());
+        holder.eTextViewOrderId.setText(String.valueOf(order.getOrderId()));
+
     }
 
     @Override
@@ -55,22 +49,21 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     }
 
     public class OrdersViewHolder extends RecyclerView.ViewHolder {
-        private TextView eTextViewCustomerName;
-        private TextView eTextViewOrderid;
-        private TextView eTextViewOrderTotal;
+        private TextView eTextViewOrderId;
         private TextView eTextViewOrderDate;
-        private Button eButtonRejectOrder;
-        private Button eButtonAcceptOrder;
 
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            eTextViewCustomerName = itemView.findViewById(R.id.textView_Order_customer_name);
-            eTextViewOrderid = itemView.findViewById(R.id.textView_Order_OrderId);
-            eTextViewOrderTotal = itemView.findViewById(R.id.textView_Order_Total);
+            eTextViewOrderId = itemView.findViewById(R.id.textView_Order_OrderId);
             eTextViewOrderDate = itemView.findViewById(R.id.textView_Order_time);
-            eButtonAcceptOrder = itemView.findViewById(R.id.button_Order_accept);
-            eButtonRejectOrder = itemView.findViewById(R.id.button_Order_reject);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(itemView.getContext(), eOrders.get(getAdapterPosition()).getCustomerId(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
     }

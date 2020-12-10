@@ -63,6 +63,7 @@ public class OrderRepo {
         FirebaseUser eFirebaseUser;
         FirebaseAuth eFirebaseAuth;
         OrderDao eOrderDao;
+
         public getVendorOrdersAsyncTask(VolleySingleton volleySingleton, FirebaseAuth auth, OrderDao orderDao) {
             eVolleySingleton = volleySingleton;
             eFirebaseAuth = auth;
@@ -90,17 +91,17 @@ public class OrderRepo {
                             JSONObject orderJsonObject = response.getJSONObject(i);
                             int order_id = orderJsonObject.getInt("order_id");
                             String customer_id = orderJsonObject.getString("customer_id");
-                            int total = orderJsonObject.getInt("total");
-                            String status = orderJsonObject.getString("status");
-                            int quantity = orderJsonObject.getInt("quantity");
-                            String foodName = orderJsonObject.getString("food_name");
 
+                            //create new order and save it to db
                             Order order = new Order(order_id);
                             order.setCustomerId(customer_id);
-                            order.setStatus(status);
-                            order.setFoodName(foodName);
-                            order.setFoodQuantity(quantity);
-                            new saveOrdersToDbAsyncTask(eOrderDao, order).execute();
+                            FoodRoomDatabase.databaseWriteEXECUTOR_SERVICE.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    eOrderDao.insert(order);
+                                }
+                            });
+//                            new saveOrdersToDbAsyncTask(eOrderDao, order).execute();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
