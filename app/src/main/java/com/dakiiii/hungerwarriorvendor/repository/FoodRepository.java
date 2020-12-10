@@ -33,6 +33,10 @@ public class FoodRepository {
 
     public static final String API_FOODS_URL = "https://hungerwarrior.herokuapp.com/api/foods";
     public static final String API_FOODS_BY_VENDOR_URL = API_FOODS_URL + "ByVendor/";
+    public static final String KEY_FOOD_NAME = "food_name";
+    public static final String KEY_FOOD_DESC = "food_desc";
+    public static final String KEY_FOOD_PRICE = "food_price";
+    public static final String KEY_FOOD_VENDOR = "food_vendor";
     private final FoodDao eFoodDao;
     private final LiveData<List<Food>> eAllFoods;
     private final VolleySingleton eVolleySingleton;
@@ -64,8 +68,31 @@ public class FoodRepository {
 
 
     //    save food to server
-    public void saveFoodToServer(Food food) {
-        new saveFoodToServerAsyncTask(eFoodDao, eVolleySingleton, food).execute();
+    public void saveFoodOnWebServer(Food food) {
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST, FoodsListFragment.foodsUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put(KEY_FOOD_NAME, food.getFoodName());
+                params.put(KEY_FOOD_DESC, food.getFoodDescription());
+                params.put(KEY_FOOD_PRICE, Integer.toString(food.getFoodPrice()));
+                params.put(KEY_FOOD_VENDOR, food.getFoodVendor());
+                return params;
+            }
+        };
+
+        eVolleySingleton.addToRequestQueue(stringRequest);
     }
 
     //    Get foods from server
@@ -174,54 +201,5 @@ public class FoodRepository {
     }
 
     //    Async task to save a food to the server
-    public static class saveFoodToServerAsyncTask extends AsyncTask<Void, Void, Void> {
-        public static final String KEY_FOOD_NAME = "food_name";
-        public static final String KEY_FOOD_DESC = "food_desc";
-        public static final String KEY_FOOD_PRICE = "food_price";
-        public static final String KEY_FOOD_VENDOR = "food_vendor";
-        FoodDao eFoodDao;
-        Food eFood;
-        VolleySingleton eVolleySingleton;
 
-        public saveFoodToServerAsyncTask(FoodDao foodDao, VolleySingleton volleySingleton, Food food) {
-            eFoodDao = foodDao;
-            eFood = food;
-            eVolleySingleton = volleySingleton;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            saveFood(eFood);
-
-            return null;
-        }
-
-        private void saveFood(Food food) {
-            StringRequest stringRequest = new StringRequest(
-                    Request.Method.POST, FoodsListFragment.foodsUrl, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put(KEY_FOOD_NAME, food.getFoodName());
-                    params.put(KEY_FOOD_DESC, food.getFoodDescription());
-                    params.put(KEY_FOOD_PRICE, Integer.toString(food.getFoodPrice()));
-                    params.put(KEY_FOOD_VENDOR, food.getFoodVendor());
-                    return params;
-                }
-            };
-
-            eVolleySingleton.addToRequestQueue(stringRequest);
-        }
-    }
 }

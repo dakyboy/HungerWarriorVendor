@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dakiiii.hungerwarriorvendor.R;
 import com.dakiiii.hungerwarriorvendor.model.Order;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder> {
@@ -32,6 +35,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
 
         Order order = eOrders.get(position);
         holder.eTextViewOrderId.setText(String.valueOf(order.getOrderId()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = dateFormat.parse(order.getOrderedOn());
+            holder.eTextViewOrderDate.setText(dateFormat.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

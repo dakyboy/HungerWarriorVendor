@@ -91,17 +91,19 @@ public class OrderRepo {
                             JSONObject orderJsonObject = response.getJSONObject(i);
                             int order_id = orderJsonObject.getInt("order_id");
                             String customer_id = orderJsonObject.getString("customer_id");
+                            String orderedOn = orderJsonObject.getString("created_at");
 
                             //create new order and save it to db
                             Order order = new Order(order_id);
                             order.setCustomerId(customer_id);
+                            order.setOrderedOn(orderedOn);
+
                             FoodRoomDatabase.databaseWriteEXECUTOR_SERVICE.execute(new Runnable() {
                                 @Override
                                 public void run() {
                                     eOrderDao.insert(order);
                                 }
                             });
-//                            new saveOrdersToDbAsyncTask(eOrderDao, order).execute();
 
                         } catch (JSONException e) {
                             e.printStackTrace();

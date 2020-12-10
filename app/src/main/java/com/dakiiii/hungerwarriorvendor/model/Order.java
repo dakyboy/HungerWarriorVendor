@@ -7,9 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "orders_table")
 public class Order {
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-
+    @PrimaryKey
     private int orderId;
 
 
@@ -26,13 +24,7 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getOrderId() {
         return orderId;

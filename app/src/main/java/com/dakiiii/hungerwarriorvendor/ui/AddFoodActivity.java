@@ -18,6 +18,7 @@ import com.dakiiii.hungerwarriorvendor.model.Food;
 import com.dakiiii.hungerwarriorvendor.viewmodel.FoodViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
 public class AddFoodActivity extends AppCompatActivity {
 
@@ -51,9 +52,6 @@ public class AddFoodActivity extends AppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         eFirebaseUser = firebaseAuth.getCurrentUser();
 
-        eFoodViewModel = new ViewModelProvider
-                .AndroidViewModelFactory(getApplication())
-                .create(FoodViewModel.class);
 
         Glide.with(this)
                 .load("http://via.placeholder.com/300.png")
@@ -87,8 +85,8 @@ public class AddFoodActivity extends AppCompatActivity {
             food = new Food(foodName, foodPrice);
             food.setFoodDescription(foodDesc);
             food.setFoodVendor(eFirebaseUser.getDisplayName());
-
-            eFoodViewModel.saveFoodToServer(food);
+            replyIntent.putExtra("new_food", new Gson().toJson(food));
+//            eFoodViewModel.saveFoodToServer(food);
             setResult(RESULT_OK, replyIntent);
 
 

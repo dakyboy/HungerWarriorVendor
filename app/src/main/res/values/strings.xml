@@ -19,7 +19,7 @@
     <string name="total">Total:</string>
     <string name="_15">15</string>
     <string name="order_time">Order Time</string>
-    <string name="order_id">Order id:</string>
+    <string name="order_id">Order id: #</string>
     <string name="qty">Qty</string>
     <string name="reject">reject</string>
     <string name="accept">Accept</string>
