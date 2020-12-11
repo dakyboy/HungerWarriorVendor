@@ -83,4 +83,9 @@ public class FoodsListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        eFoodListViewModel.refreshFoods();
+    }
 }

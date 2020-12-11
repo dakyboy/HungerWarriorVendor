@@ -1,13 +1,13 @@
 package com.dakiiii.hungerwarriorvendor.repository;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,13 +41,13 @@ public class FoodRepository {
     private final LiveData<List<Food>> eAllFoods;
     private final VolleySingleton eVolleySingleton;
     private final LiveData<List<Food>> eLiveDataFoods = new MutableLiveData<>();
-    private FirebaseUser eFirebaseUser;
+    private final FirebaseUser eFirebaseUser;
 
     public FoodRepository(Application application) {
         FoodRoomDatabase foodRoomDatabase = FoodRoomDatabase.getFoodRoomDatabase(application);
         eFoodDao = foodRoomDatabase.eFoodDao();
         eFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        eVolleySingleton = VolleySingleton.getInstance(application);
+        eVolleySingleton = VolleySingleton.getInstance(application.getApplicationContext());
 
         getFoodsFromServer();
 
@@ -60,12 +60,6 @@ public class FoodRepository {
     public LiveData<List<Food>> getAllFoods() {
         return eAllFoods;
     }
-
-
-    public void saveFoodToDb(Food food) {
-        new saveFoodsToDbAsyncTask(eFoodDao, food).execute();
-    }
-
 
     //    save food to server
     public void saveFoodOnWebServer(Food food) {
@@ -92,12 +86,60 @@ public class FoodRepository {
             }
         };
 
+        stringRequest.setRetryPolicy(
+                new DefaultRetryPolicy(0
+                        , DefaultRetryPolicy.DEFAULT_MAX_RETRIES
+                        , DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         eVolleySingleton.addToRequestQueue(stringRequest);
     }
 
     //    Get foods from server
+
     public void getFoodsFromServer() {
-        new getFoodsFromServerAsyncTask(eFoodDao, eVolleySingleton, eFirebaseUser).execute();
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET
+                , API_FOODS_BY_VENDOR_URL + eFirebaseUser.getDisplayName()
+                , null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject foodJsonObject = response.getJSONObject(i);
+
+                        int foodId = foodJsonObject.getInt("id");
+                        int food_price = foodJsonObject.getInt("food_price");
+                        String food_name = foodJsonObject.getString("food_name");
+                        String food_desc = foodJsonObject.getString("food_desc");
+
+                        Food food = new Food(food_name, food_price);
+                        food.setFoodId(foodId);
+                        food.setFoodDescription(food_desc);
+
+                        FoodRoomDatabase.databaseWriteEXECUTOR_SERVICE.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                eFoodDao.insert(food);
+                            }
+                        });
+
+                    } catch (JSONException jsonException) {
+                        Log.e("get food repo error", jsonException.toString());
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("get food repo error", error.toString());
+            }
+        });
+
+
+        eVolleySingleton.addToRequestQueue(jsonArrayRequest);
+
     }
 
     public void deleteFood(Food food) {
@@ -115,91 +157,5 @@ public class FoodRepository {
     }
 
     //    Async tasks
-
-    //    Async task to save the foods from the server to the db
-    private static class getFoodsFromServerAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        private final FoodDao eFoodDao;
-        private final VolleySingleton eVolleySingleton;
-        private FirebaseUser eFirebaseUser;
-
-        public getFoodsFromServerAsyncTask(FoodDao foodDao
-                , VolleySingleton volleySingleton, FirebaseUser user) {
-            eFoodDao = foodDao;
-            eVolleySingleton = volleySingleton;
-            eFirebaseUser = user;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            getFoodsFromServer();
-            return null;
-        }
-
-        private void getFoodsFromServer() {
-
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET
-                    , API_FOODS_BY_VENDOR_URL + eFirebaseUser.getDisplayName()
-                    , null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-
-                    for (int i = 0; i < response.length(); i++) {
-                        try {
-                            JSONObject foodJsonObject = response.getJSONObject(i);
-
-                            int foodId = foodJsonObject.getInt("id");
-                            int food_price = foodJsonObject.getInt("food_price");
-                            String food_name = foodJsonObject.getString("food_name");
-                            String food_desc = foodJsonObject.getString("food_desc");
-
-                            Food food = new Food(food_name, food_price);
-                            food.setFoodId(foodId);
-                            food.setFoodDescription(food_desc);
-
-                            new saveFoodsToDbAsyncTask(eFoodDao, food).execute();
-
-                        } catch (JSONException jsonException) {
-                            Log.e("get food repo error", jsonException.toString());
-                        }
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("get food repo error", error.toString());
-                }
-            });
-
-
-            eVolleySingleton.addToRequestQueue(jsonArrayRequest);
-
-        }
-
-
-    }
-
-
-    //    Async task to save a food to the db
-    public static class saveFoodsToDbAsyncTask extends AsyncTask<Void, Void, Void> {
-        FoodDao eFoodDao;
-        Food eFood;
-
-        public saveFoodsToDbAsyncTask(FoodDao foodDao, Food food) {
-            eFoodDao = foodDao;
-            eFood = food;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            eFoodDao.insert(eFood);
-
-            return null;
-        }
-    }
-
-    //    Async task to save a food to the server
 
 }

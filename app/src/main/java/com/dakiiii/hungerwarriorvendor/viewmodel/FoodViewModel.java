@@ -17,6 +17,7 @@ public class FoodViewModel extends AndroidViewModel {
         eFoodRepository = new FoodRepository(application);
     }
 
+
     public void saveFoodToServer(Food food) {
         eFoodRepository.saveFoodOnWebServer(food);
     }

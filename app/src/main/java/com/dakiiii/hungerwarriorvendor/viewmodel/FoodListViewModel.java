@@ -29,4 +29,8 @@ public class FoodListViewModel extends AndroidViewModel {
     public void deleteFood(Food food) {
         eFoodRepository.deleteFood(food);
     }
+
+    public void refreshFoods() {
+        eFoodRepository.getFoodsFromServer();
+    }
 }

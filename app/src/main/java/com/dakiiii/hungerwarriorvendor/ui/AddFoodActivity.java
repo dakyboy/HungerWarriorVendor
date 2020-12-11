@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.dakiiii.hungerwarriorvendor.R;
@@ -27,6 +26,7 @@ public class AddFoodActivity extends AppCompatActivity {
     public static final String KEY_FOOD_DESC = "food_desc";
     public static final String KEY_FOOD_PRICE = "food_price";
     public static final String KEY_FOOD_VENDOR = "food_vendor";
+    public static final String NEW_FOOD_EXTRA = "new_food";
 
 
     private ImageView foodPicImageView;
@@ -85,8 +85,7 @@ public class AddFoodActivity extends AppCompatActivity {
             food = new Food(foodName, foodPrice);
             food.setFoodDescription(foodDesc);
             food.setFoodVendor(eFirebaseUser.getDisplayName());
-            replyIntent.putExtra("new_food", new Gson().toJson(food));
-//            eFoodViewModel.saveFoodToServer(food);
+            replyIntent.putExtra(NEW_FOOD_EXTRA, new Gson().toJson(food));
             setResult(RESULT_OK, replyIntent);
 
 

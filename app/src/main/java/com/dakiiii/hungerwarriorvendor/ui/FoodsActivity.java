@@ -58,7 +58,7 @@ public class FoodsActivity extends AppCompatActivity {
 
         if (requestCode == NEW_FOOD_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                String new_food = data.getStringExtra("new_food");
+                String new_food = data.getStringExtra(AddFoodActivity.NEW_FOOD_EXTRA);
                 Food food = new Gson().fromJson(new_food, Food.class);
                 eFoodViewModel.saveFoodToServer(food);
 
