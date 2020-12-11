@@ -13,7 +13,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.dakiiii.hungerwarriorvendor.db.FoodRoomDatabase;
 import com.dakiiii.hungerwarriorvendor.db.dao.OrderDao;
+import com.dakiiii.hungerwarriorvendor.db.dao.OrderItemDao;
 import com.dakiiii.hungerwarriorvendor.model.Order;
+import com.dakiiii.hungerwarriorvendor.model.OrderItem;
 import com.dakiiii.hungerwarriorvendor.networking.VolleySingleton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,16 +29,18 @@ import java.util.List;
 
 public class OrderRepo {
 
-    private OrderDao eOrderDao;
-    private VolleySingleton eVolleySingleton;
+    private final OrderDao eOrderDao;
+    private final OrderItemDao eOrderItemDao;
+    private final VolleySingleton eVolleySingleton;
     List<Order> eOrders = new ArrayList<>();
     LiveData<List<Order>> eLiveDataOrders = new MutableLiveData<>();
-    private FirebaseUser eFirebaseUser;
+    private final FirebaseUser eFirebaseUser;
     FirebaseAuth eFirebaseAuth;
 
     public OrderRepo(Application application) {
         FoodRoomDatabase foodRoomDatabase = FoodRoomDatabase.getFoodRoomDatabase(application);
         eOrderDao = foodRoomDatabase.eOrderDao();
+        eOrderItemDao = foodRoomDatabase.eOrderItemDao();
         eLiveDataOrders = eOrderDao.getOrders();
         eFirebaseAuth = FirebaseAuth.getInstance();
         eVolleySingleton = VolleySingleton.getInstance(application);
@@ -44,7 +48,7 @@ public class OrderRepo {
         eFirebaseUser = eFirebaseAuth.getCurrentUser();
 
 
-        new getVendorOrdersAsyncTask(eVolleySingleton, eFirebaseAuth, eOrderDao).execute();
+        new getVendorOrdersAsyncTask(eVolleySingleton, eFirebaseAuth, eOrderDao, eOrderItemDao).execute();
     }
 
     public List<Order> getOrders() {
@@ -55,6 +59,10 @@ public class OrderRepo {
         return eLiveDataOrders;
     }
 
+    public LiveData<List<OrderItem>> getOrderItemByOrderId(int orderId) {
+        return eOrderItemDao.getOrderItemByOrderId(orderId);
+    }
+
 //    Async Classes
 
     private static class getVendorOrdersAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -63,12 +71,14 @@ public class OrderRepo {
         FirebaseUser eFirebaseUser;
         FirebaseAuth eFirebaseAuth;
         OrderDao eOrderDao;
+        OrderItemDao eOrderItemDao;
 
-        public getVendorOrdersAsyncTask(VolleySingleton volleySingleton, FirebaseAuth auth, OrderDao orderDao) {
+        public getVendorOrdersAsyncTask(VolleySingleton volleySingleton, FirebaseAuth auth, OrderDao orderDao, OrderItemDao orderItemDao) {
             eVolleySingleton = volleySingleton;
             eFirebaseAuth = auth;
             eFirebaseUser = auth.getCurrentUser();
             eOrderDao = orderDao;
+            eOrderItemDao = orderItemDao;
         }
 
         @Override
@@ -97,6 +107,23 @@ public class OrderRepo {
                             Order order = new Order(order_id);
                             order.setCustomerId(customer_id);
                             order.setOrderedOn(orderedOn);
+//create order item
+                            int orderItemId = orderJsonObject.getInt("id");
+                            String foodName = orderJsonObject.getString("food_name");
+                            String status = orderJsonObject.getString("status");
+                            int quantity = orderJsonObject.getInt("quantity");
+                            OrderItem orderItem = new OrderItem(order_id);
+                            orderItem.setId(orderItemId);
+                            orderItem.setFoodName(foodName);
+                            orderItem.setQuantity(quantity);
+                            orderItem.setStatus(status);
+
+                            FoodRoomDatabase.databaseWriteEXECUTOR_SERVICE.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    eOrderItemDao.insert(orderItem);
+                                }
+                            });
 
                             FoodRoomDatabase.databaseWriteEXECUTOR_SERVICE.execute(new Runnable() {
                                 @Override

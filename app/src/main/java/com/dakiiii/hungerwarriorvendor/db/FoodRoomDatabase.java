@@ -10,6 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.dakiiii.hungerwarriorvendor.db.dao.FoodDao;
 import com.dakiiii.hungerwarriorvendor.db.dao.OrderDao;
+import com.dakiiii.hungerwarriorvendor.db.dao.OrderItemDao;
 import com.dakiiii.hungerwarriorvendor.model.Food;
 import com.dakiiii.hungerwarriorvendor.model.Order;
 import com.dakiiii.hungerwarriorvendor.model.OrderItem;
@@ -22,6 +23,8 @@ public abstract class FoodRoomDatabase extends RoomDatabase {
     public abstract FoodDao eFoodDao();
 
     public abstract OrderDao eOrderDao();
+
+    public abstract OrderItemDao eOrderItemDao();
 
     private static volatile FoodRoomDatabase sFoodRoomDatabase;
     private static final int NUMBER_OF_THREADS = 4;

@@ -1,12 +1,11 @@
 package com.dakiiii.hungerwarriorvendor.model;
 
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import androidx.room.Ignore;
 
-@Entity(tableName = "orderItems_table")
+@Entity(tableName = "orderItems_table", primaryKeys = {"id", "orderId"})
 public class OrderItem {
 
-    @PrimaryKey(autoGenerate = true)
     private int id;
 
     private int orderId;
@@ -16,6 +15,14 @@ public class OrderItem {
     private String foodName;
 
     private int quantity;
+
+    public OrderItem() {
+    }
+
+    @Ignore
+    public OrderItem(int orderId) {
+        this.orderId = orderId;
+    }
 
     public int getId() {
         return id;

@@ -23,5 +23,14 @@
     <string name="qty">Qty</string>
     <string name="reject">reject</string>
     <string name="accept">Accept</string>
+    <string name="pending">Pending</string>
+    <string name="preparing">Preparing</string>
+    <string name="completed">Completed</string>
+
+    <string-array name="status_labels_array">
+        <item>Pending</item>
+        <item>Preparing</item>
+        <item>Completed</item>
+    </string-array>
 
 </resources>
