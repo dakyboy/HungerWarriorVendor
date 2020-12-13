@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 import com.dakiiii.hungerwarriorvendor.model.Order;
 import com.dakiiii.hungerwarriorvendor.repository.OrderRepo;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class OrderViewModel extends AndroidViewModel {
@@ -25,4 +24,10 @@ public class OrderViewModel extends AndroidViewModel {
     public LiveData<List<Order>> getOrders() {
         return eOrderRepo.getOrderss();
     }
+
+    public void refreshOrders() {
+        eOrderRepo.getOrders();
+    }
+
+
 }

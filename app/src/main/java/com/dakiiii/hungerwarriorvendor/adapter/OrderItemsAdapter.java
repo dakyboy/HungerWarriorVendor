@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,10 +20,10 @@ import java.util.List;
 
 public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.OrderItemsViewHolder> {
     List<OrderItem> eOrderItems;
+
     FoodViewModel eFoodViewModel;
 
-    public OrderItemsAdapter(FoodViewModel foodViewModel) {
-        eFoodViewModel = foodViewModel;
+    public OrderItemsAdapter() {
     }
 
     @NonNull
@@ -47,12 +48,36 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Or
 
         switch (status) {
             case "pending":
-
+                holder.eSpinner.setSelection(0);
+                break;
+            case "preparing":
+                holder.eSpinner.setSelection(1);
+                break;
+            case "completed":
+                holder.eSpinner.setSelection(2);
+                break;
+            case "cancelled":
+                holder.eSpinner.setSelection(3);
                 break;
             default:
+                break;
         }
 
 
+        if (holder.eSpinner != null) {
+            holder.eSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                        change status of food item
+                    Toast.makeText(holder.itemView.getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -80,12 +105,13 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Or
             eTextViewQuantity = itemView.findViewById(R.id.textView_OrderItemQty);
             eSpinner = itemView.findViewById(R.id.spinner_order_status);
 
-
+/*
             if (eSpinner != null) {
                 eSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                        change status of food item
+                        Toast.makeText(itemView.getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -93,7 +119,7 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.Or
 
                     }
                 });
-            }
+            }*/
             ArrayAdapter<CharSequence> adapter = ArrayAdapter
                     .createFromResource(itemView.getContext()
                             , R.array.status_labels_array, android.R.layout.simple_spinner_item);

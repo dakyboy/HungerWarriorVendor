@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface FoodDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Food food);
 
     @Query("DELETE FROM foods_table")

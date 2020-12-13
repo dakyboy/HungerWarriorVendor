@@ -16,6 +16,9 @@ public interface OrderDao {
     @Query("SELECT * FROM `orders_table`")
     LiveData<List<Order>> getOrders();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Order order);
+
+    @Query("DELETE FROM orders_table")
+    void deleteAll();
 }

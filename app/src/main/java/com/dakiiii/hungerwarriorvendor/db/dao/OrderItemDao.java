@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface OrderItemDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(OrderItem orderItem);
 
     @Query("SELECT * FROM orderItems_table")
@@ -22,4 +22,6 @@ public interface OrderItemDao {
     @Query("SELECT * FROM orderItems_table WHERE orderId = :orderId")
     LiveData<List<OrderItem>> getOrderItemByOrderId(int orderId);
 
+    @Query("DELETE FROM orderItems_table")
+    void deleteAll();
 }

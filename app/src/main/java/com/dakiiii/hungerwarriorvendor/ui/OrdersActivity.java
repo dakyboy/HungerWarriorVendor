@@ -1,5 +1,8 @@
 package com.dakiiii.hungerwarriorvendor.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +23,7 @@ public class OrdersActivity extends AppCompatActivity {
 
     private OrderViewModel eOrderViewModel;
     private OrdersAdapter eOrdersAdapter;
+    private ConnectivityManager eConnectivityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,7 @@ public class OrdersActivity extends AppCompatActivity {
         eOrdersAdapter = new OrdersAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(eOrdersAdapter);
-
+        eConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         eOrderViewModel = new ViewModelProvider
                 .AndroidViewModelFactory(getApplication())
                 .create(OrderViewModel.class);
@@ -44,4 +48,16 @@ public class OrdersActivity extends AppCompatActivity {
 
 //        update status
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Network network;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            network = eConnectivityManager.getActiveNetwork();
+        }
+
+        eOrderViewModel.refreshOrders();
+    }
+
 }

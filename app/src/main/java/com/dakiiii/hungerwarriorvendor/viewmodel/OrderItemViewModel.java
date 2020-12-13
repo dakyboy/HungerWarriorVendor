@@ -22,4 +22,14 @@ public class OrderItemViewModel extends AndroidViewModel {
     public LiveData<List<OrderItem>> getOrderItemsById(int orderId) {
         return eOrderRepo.getOrderItemByOrderId(orderId);
     }
+
+    public void setOrderItemStatus(int orderItemId) {
+        eOrderRepo.setOrderItemStatus(orderItemId);
+
+    }
+
+    public LiveData<String> getOrderItemStatus(int orderItemId) {
+
+        return eOrderRepo.getOrderItemStatus(orderItemId);
+    }
 }

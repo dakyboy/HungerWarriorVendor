@@ -53,6 +53,12 @@ public abstract class FoodRoomDatabase extends RoomDatabase {
                 FoodDao foodDao = sFoodRoomDatabase.eFoodDao();
                 foodDao.deleteAll();
 
+                OrderItemDao orderItemDao = sFoodRoomDatabase.eOrderItemDao();
+                orderItemDao.deleteAll();
+
+                OrderDao orderDao = sFoodRoomDatabase.eOrderDao();
+                orderDao.deleteAll();
+
             });
         }
     };

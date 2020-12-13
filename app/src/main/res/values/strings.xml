@@ -28,9 +28,10 @@
     <string name="completed">Completed</string>
 
     <string-array name="status_labels_array">
-        <item>Pending</item>
-        <item>Preparing</item>
-        <item>Completed</item>
+        <item>pending</item>
+        <item>preparing</item>
+        <item>completed</item>
+        <item>cancelled</item>
     </string-array>
 
 </resources>
