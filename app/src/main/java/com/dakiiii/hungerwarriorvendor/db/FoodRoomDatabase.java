@@ -36,6 +36,7 @@ public abstract class FoodRoomDatabase extends RoomDatabase {
             synchronized (FoodRoomDatabase.class) {
                 sFoodRoomDatabase = Room.databaseBuilder(context.getApplicationContext(),
                         FoodRoomDatabase.class, "food_database")
+                        .addCallback(sCallback)
                         .build();
             }
         }
@@ -52,10 +53,6 @@ public abstract class FoodRoomDatabase extends RoomDatabase {
                 FoodDao foodDao = sFoodRoomDatabase.eFoodDao();
                 foodDao.deleteAll();
 
-                Food food = new Food("Kalo", 2500);
-                foodDao.insert(food);
-                food = new Food("Potato", 3000);
-                foodDao.insert(food);
             });
         }
     };
