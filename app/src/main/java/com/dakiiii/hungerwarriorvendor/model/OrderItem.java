@@ -20,6 +20,13 @@ public class OrderItem {
     }
 
     @Ignore
+    public OrderItem(int id, int orderId, String status) {
+        this.id = id;
+        this.orderId = orderId;
+        this.status = status;
+    }
+
+    @Ignore
     public OrderItem(int orderId) {
         this.orderId = orderId;
     }

@@ -26,6 +26,8 @@
     <string name="pending">Pending</string>
     <string name="preparing">Preparing</string>
     <string name="completed">Completed</string>
+    <string name="x">x</string>
+    <string name="status">Status</string>
 
     <string-array name="status_labels_array">
         <item>pending</item>

@@ -38,11 +38,13 @@ public class ViewOrderItemsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview_oi_order_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        eOrderItemsAdapter = new OrderItemsAdapter();
-        recyclerView.setAdapter(eOrderItemsAdapter);
+
 
         eOrderItemViewModel = new ViewModelProvider
                 .AndroidViewModelFactory(getApplication()).create(OrderItemViewModel.class);
+
+        eOrderItemsAdapter = new OrderItemsAdapter(eOrderItemViewModel, this);
+        recyclerView.setAdapter(eOrderItemsAdapter);
 
         eOrderItemViewModel.getOrderItemsById(order.getOrderId())
                 .observe(this, new Observer<List<OrderItem>>() {
@@ -51,5 +53,7 @@ public class ViewOrderItemsActivity extends AppCompatActivity {
                         eOrderItemsAdapter.setOrderItems(orderItems);
                     }
                 });
+
+
     }
 }

@@ -2,7 +2,6 @@ package com.dakiiii.hungerwarriorvendor.ui;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,15 +48,10 @@ public class OrdersActivity extends AppCompatActivity {
 //        update status
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
-        Network network;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            network = eConnectivityManager.getActiveNetwork();
-        }
-
         eOrderViewModel.refreshOrders();
     }
-
 }

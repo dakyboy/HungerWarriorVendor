@@ -22,6 +22,14 @@ public interface OrderItemDao {
     @Query("SELECT * FROM orderItems_table WHERE orderId = :orderId")
     LiveData<List<OrderItem>> getOrderItemByOrderId(int orderId);
 
+    @Query("SELECT status FROM ORDERITEMS_TABLE WHERE orderId = :orderItemId")
+    LiveData<String> getOrderItemStatus(int orderItemId);
+
     @Query("DELETE FROM orderItems_table")
     void deleteAll();
+
+    @Query("UPDATE orderItems_table SET status = :status WHERE id = :orderItemId AND orderId = :orderId")
+    void updateStatus(String status, int orderItemId, int orderId);
+
+
 }
