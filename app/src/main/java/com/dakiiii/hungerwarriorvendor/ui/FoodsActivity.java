@@ -9,9 +9,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.dakiiii.hungerwarriorvendor.R;
+import com.dakiiii.hungerwarriorvendor.model.Food;
+import com.dakiiii.hungerwarriorvendor.viewmodel.FoodViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 public class FoodsActivity extends AppCompatActivity {
 
@@ -19,6 +23,7 @@ public class FoodsActivity extends AppCompatActivity {
     private FragmentManager eFragmentManager;
     private FoodsListFragment eFoodsListFragment;
     private final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
+    FoodViewModel eFoodViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,9 @@ public class FoodsActivity extends AppCompatActivity {
                 startActivityForResult(addFoodIntent, NEW_FOOD_ACTIVITY_REQUEST_CODE);
             }
         });
+        eFoodViewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication())
+                .create(FoodViewModel.class);
+
         eFragmentManager = getSupportFragmentManager();
 
         eFoodsListFragment = new FoodsListFragment();
@@ -50,10 +58,9 @@ public class FoodsActivity extends AppCompatActivity {
 
         if (requestCode == NEW_FOOD_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-//                Bundle newFoodBundle = data.getBundleExtra(AddFoodActivity.EXTRA_REPLY);
-//                String foodName = newFoodBundle.getString("FOOD_NAME");
-//                int foodPrice = newFoodBundle.getInt("FOOD_PRICE");
-//                Food food = new Food(foodName, foodPrice);
+                String new_food = data.getStringExtra(AddFoodActivity.NEW_FOOD_EXTRA);
+                Food food = new Gson().fromJson(new_food, Food.class);
+                eFoodViewModel.saveFoodToServer(food);
 
                 Toast.makeText(this, "Food saved", Toast.LENGTH_SHORT).show();
 

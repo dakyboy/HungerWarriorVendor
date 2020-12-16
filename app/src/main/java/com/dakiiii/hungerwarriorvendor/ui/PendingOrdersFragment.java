@@ -1,10 +1,12 @@
 package com.dakiiii.hungerwarriorvendor.ui;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,24 +19,31 @@ import com.dakiiii.hungerwarriorvendor.viewmodel.OrderViewModel;
 
 import java.util.List;
 
-public class OrdersActivity extends AppCompatActivity {
+public class PendingOrdersFragment extends Fragment {
 
-
-    private OrderViewModel eOrderViewModel;
-    private OrdersAdapter eOrdersAdapter;
-    private ConnectivityManager eConnectivityManager;
+    OrderViewModel eOrderViewModel;
+    OrdersAdapter eOrdersAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders);
-        RecyclerView recyclerView = findViewById(R.id.recyclerview_orders);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_pending_orders, container, false);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_orders);
         eOrdersAdapter = new OrdersAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Context context = view.getContext();
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(eOrdersAdapter);
-        eConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
         eOrderViewModel = new ViewModelProvider
-                .AndroidViewModelFactory(getApplication())
+                .AndroidViewModelFactory(getActivity().getApplication())
                 .create(OrderViewModel.class);
 
         eOrderViewModel.getOrders().observe(this, new Observer<List<Order>>() {
@@ -43,15 +52,6 @@ public class OrdersActivity extends AppCompatActivity {
                 eOrdersAdapter.setOrders(orders);
             }
         });
-//        display dem on list
-
-//        update status
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        eOrderViewModel.refreshOrders();
+        return view;
     }
 }

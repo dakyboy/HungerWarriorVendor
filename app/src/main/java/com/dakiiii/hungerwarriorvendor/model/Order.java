@@ -1,29 +1,52 @@
 package com.dakiiii.hungerwarriorvendor.model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "orders_table")
 public class Order {
 
     @PrimaryKey
-    private int id;
+    private int orderId;
 
-    private int total;
 
-    public int getId() {
-        return id;
+    private String customerId;
+
+
+    private String orderedOn;
+
+    public Order() {
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Ignore
+    public Order(int orderId) {
+        this.orderId = orderId;
     }
 
-    public int getTotal() {
-        return total;
+
+
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getOrderedOn() {
+        return orderedOn;
+    }
+
+    public void setOrderedOn(String orderedOn) {
+        this.orderedOn = orderedOn;
     }
 }
