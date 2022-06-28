@@ -9,8 +9,10 @@
     <string name="dashboard">Dashboard</string>
     <string name="orders">Orders</string>
 
-    <string name="facebook_application_id" translatable="false">1915111812034075</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb1915111812034075</string>
+    <string name="facebook_application_id">639307274060869</string>
+    <string name="fb_login_protocol_scheme">fb639307274060869</string>
+    <string name="facebook_client_token">e8087bb0f85dca2b7725add5607a8002</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="image_of_food">Image of food</string>
     <!-- TODO: Remove or change this placeholder text -->
